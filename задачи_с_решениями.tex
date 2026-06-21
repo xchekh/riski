@@ -1,0 +1,643 @@
+\documentclass[12pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T2A]{fontenc}
+\usepackage[russian]{babel}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{mathtools}
+\usepackage{geometry}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{hyperref}
+
+\geometry{left=2.5cm, right=2cm, top=2.5cm, bottom=2.5cm}
+
+\newtheoremstyle{zadacha}{}{}{\normalfont}{}{\bfseries}{.}{0.5em}{}
+\theoremstyle{zadacha}
+\newtheorem{zadacha}{Задача}[section]
+
+\renewcommand{\baselinestretch}{1.2}
+
+\title{Задачи с решениями\\[0.4em]
+\large Теория риска и стохастическая финансовая математика}
+\author{МГУ}
+\date{2025}
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+\newpage
+
+%--------------------------------------------------------------
+\section{Лекции 1–2. $(B,S)$-рынки и самофинансируемые портфели}
+%--------------------------------------------------------------
+
+\subsection*{Задача 1}
+
+\textbf{Условие.} Доказать, что если портфель удовлетворяет условиям (a') и (d') следствия~1, то выполняется равенство~(2), т.\,е. условие~(b') следствия~1.
+
+\medskip
+\textbf{Решение.}
+
+Напомним формулировки. Для самофинансируемого портфеля (СФП) с $g_n = 0$, $h_n = 0$:
+
+\begin{description}
+  \item[(a')] $X_{n-1} = \beta_{n-1} B_n + \gamma_{n-1} S_n$ --- условие самофинансирования.
+  \item[(d')] $\Delta \tilde{X}_n = \gamma_n \Delta Z_n$, где $\tilde{X}_n = X_n/B_n$, $Z_n = S_n/B_n$.
+\end{description}
+
+Требуется вывести \textbf{(b')}: $\beta_n \Delta B_n + \gamma_{n-1} \Delta S_n = 0$.
+
+\textbf{Шаг 1.} Условие (d') в явном виде:
+\[
+\frac{X_n}{B_n} - \frac{X_{n-1}}{B_{n-1}} = \gamma_n \!\left(\frac{S_n}{B_n} - \frac{S_{n-1}}{B_{n-1}}\right).
+\]
+
+\textbf{Шаг 2.} Умножим обе части на $B_n$:
+\[
+X_n - X_{n-1} \cdot \frac{B_n}{B_{n-1}} = \gamma_n \!\left(S_n - S_{n-1} \cdot \frac{B_n}{B_{n-1}}\right).
+\]
+
+\textbf{Шаг 3.} Из условия (a'):
+\[
+X_{n-1} = \beta_{n-1} B_{n-1} + \gamma_{n-1} S_{n-1},
+\]
+а также $X_n = \beta_n B_n + \gamma_n S_n$.
+
+Подставим в левую часть:
+\[
+\beta_n B_n + \gamma_n S_n - (\beta_{n-1} B_{n-1} + \gamma_{n-1} S_{n-1}) \frac{B_n}{B_{n-1}}.
+\]
+
+\textbf{Шаг 4.} После упрощения условие (a') даёт:
+\[
+X_{n-1} = \beta_{n-1} B_n + \gamma_{n-1} S_n \quad \text{(перед шагом }n\text{, после перестройки)}.
+\]
+Используя оба вида условия (a'):
+\[
+\Delta X_n = (\beta_n - \beta_{n-1}) B_n + (\gamma_n - \gamma_{n-1}) S_n.
+\]
+С другой стороны из (c'): $\Delta X_n = \beta_n \Delta B_n + \gamma_n \Delta S_n$.
+
+\textbf{Шаг 5.} Приравниваем и получаем:
+\[
+\beta_n \Delta B_n + \gamma_n \Delta S_n = (\beta_n - \beta_{n-1}) B_n + (\gamma_n - \gamma_{n-1}) S_n.
+\]
+Раскрывая $\Delta B_n = B_n - B_{n-1}$, $\Delta S_n = S_n - S_{n-1}$ и упрощая:
+\[
+-\beta_n B_{n-1} - \gamma_n S_{n-1} = -\beta_{n-1} B_n - \gamma_{n-1} S_n,
+\]
+т.\,е. $\beta_{n-1} B_n + \gamma_{n-1} S_n = \beta_n B_{n-1} + \gamma_n S_{n-1}$.
+
+Отсюда (b') вытекает непосредственно:
+\[
+\beta_n \Delta B_n + \gamma_{n-1} \Delta S_n = \beta_n(B_n - B_{n-1}) + \gamma_{n-1}(S_n - S_{n-1}) = 0. \quad \blacksquare
+\]
+
+\subsection*{Задача 2}
+
+\textbf{Условие.} Построить $(B,S)$-рынок с горизонтом $N = 3$ и задать на нём самофинансируемый портфель.
+
+\medskip
+\textbf{Решение.}
+
+\textbf{Шаг 1. Построение рынка.}
+
+Возьмём $\Omega = \{HHH, HHT, HTH, HTT, THH, THT, TTH, TTT\}$ (три подбрасывания монеты).
+Фильтрация: $\mathcal{F}_0 = \{\emptyset, \Omega\}$, $\mathcal{F}_n = \sigma(\xi_1, \ldots, \xi_n)$, где $\xi_k = 1$ если $H$, $\xi_k = 0$ если $T$.
+
+Параметры: $B_0 = 1$, $r = 0.1$, $S_0 = 100$, $b = 0.2$, $a = -0.1$.
+
+Банковский счёт: $B_n = (1.1)^n$.
+
+Цена акции: $S_n = S_0 \prod_{k=1}^n (1 + \xi_k)$, где $1 + \xi_k = 1.2$ при $H$ и $0.9$ при $T$.
+
+Проверка безарбитражности: $-1 < a = -0.1 < r = 0.1 < b = 0.2$, условие выполнено.
+
+Мартингальная мера: $p^* = (0.1 - (-0.1))/(0.2 - (-0.1)) = 0.2/0.3 = 2/3$.
+
+\textbf{Шаг 2. Построение СФП.}
+
+Рассмотрим европейский call-опцион с $K = 120$ и $N = 3$. Справедливая цена:
+\[
+C = (1.1)^{-3} E^{P^*}[(S_3 - 120)^+].
+\]
+
+Вычислим $S_3$:
+\begin{itemize}
+  \item $HHH$: $S_3 = 100 \cdot 1.2^3 = 172.8$, выплата $= 52.8$, $P^* = (2/3)^3 = 8/27$;
+  \item $HHT, HTH, THH$: $S_3 = 129.6$, выплата $= 9.6$, $P^* = 12/27$;
+  \item $HTT, THT, TTH$: $S_3 = 97.2$, выплата $= 0$;
+  \item $TTT$: $S_3 = 72.9$, выплата $= 0$.
+\end{itemize}
+
+\[
+E^{P^*}[(S_3-120)^+] = \frac{8}{27} \cdot 52.8 + \frac{12}{27} \cdot 9.6 = \frac{537.6}{27} \approx 19.91.
+\]
+\[
+C = \frac{19.91}{1.331} \approx 14.96.
+\]
+
+Хеджирующий портфель:
+\[
+X_n = B_n \cdot E^{P^*}\!\left[\frac{(S_3 - 120)^+}{B_3} \,\bigg|\, \mathcal{F}_n\right], \quad
+\gamma_n = \frac{X_n(S_{n-1}(1.2)) - X_n(S_{n-1}(0.9))}{S_{n-1}(0.3)}.
+\]
+
+Это СФП с $X_0 = C \approx 14.96$, $X_3 = (S_3 - 120)^+$. $\quad\blacksquare$
+
+%--------------------------------------------------------------
+\section{Лекции 3–4. Теория мартингалов}
+%--------------------------------------------------------------
+
+\subsection*{Задача I}
+
+\textbf{Условие.} Пусть $\xi_1, \xi_2, \ldots$ — независимые одинаково распределённые случайные величины с $E[\xi_k] \geq 0$. Показать, что $Z_n = \xi_1 + \cdots + \xi_n$ является субмартингалом.
+
+\medskip
+\textbf{Решение.}
+
+Проверим: $E[Z_{n+1} \mid \mathcal{F}_n] \geq Z_n$.
+\[
+E[Z_{n+1} \mid \mathcal{F}_n] = E[Z_n + \xi_{n+1} \mid \mathcal{F}_n] = Z_n + E[\xi_{n+1} \mid \mathcal{F}_n].
+\]
+
+Так как $\xi_{n+1}$ не зависит от $\mathcal{F}_n = \sigma(\xi_1, \ldots, \xi_n)$:
+\[
+E[\xi_{n+1} \mid \mathcal{F}_n] = E[\xi_{n+1}] \geq 0.
+\]
+
+Следовательно $E[Z_{n+1} \mid \mathcal{F}_n] = Z_n + E[\xi_{n+1}] \geq Z_n$, что доказывает субмартингальность $Z$. $\quad\blacksquare$
+
+\begin{remark}
+Если $E[\xi_k] = 0$, то $Z$ --- мартингал. Если $E[\xi_k] \leq 0$, то $Z$ --- супермартингал.
+\end{remark}
+
+\subsection*{Задача II}
+
+\textbf{Условие.} Пусть $\xi_1, \xi_2, \ldots$ --- независимые одинаково распределённые положительные случайные величины с $0 < E[\xi_k] \leq 1$. Показать, что $Z_n = \xi_1 \cdot \xi_2 \cdots \xi_n$ является супермартингалом.
+
+\medskip
+\textbf{Решение.}
+
+Проверим: $E[Z_{n+1} \mid \mathcal{F}_n] \leq Z_n$.
+\[
+E[Z_{n+1} \mid \mathcal{F}_n] = E[Z_n \cdot \xi_{n+1} \mid \mathcal{F}_n] = Z_n \cdot E[\xi_{n+1} \mid \mathcal{F}_n] = Z_n \cdot E[\xi_{n+1}].
+\]
+
+Так как $Z_n > 0$ п.\,н. и $E[\xi_{n+1}] \leq 1$, получаем $E[Z_{n+1} \mid \mathcal{F}_n] \leq Z_n$.
+
+Таким образом, $Z_n$ --- \emph{супермартингал} при $E[\xi_k] \leq 1$.
+
+Если $E[\xi_k] = 1$ --- мартингал; если $E[\xi_k] \geq 1$ --- субмартингал. $\quad\blacksquare$
+
+\subsection*{Задача III}
+
+\textbf{Условие.} Пусть $(Z_n)$ --- субмартингал класса $L^p$ (т.\,е. $\sup_n E|Z_n|^p < \infty$) для некоторого $p > 1$. В разложении Дуба $Z_n = M_n + A_n$ принадлежат ли $M$ и $A$ классу $L^p$?
+
+\medskip
+\textbf{Решение.}
+
+По теореме Дуба, для субмартингала:
+\[
+A_n = \sum_{k=1}^n \bigl(E[Z_k \mid \mathcal{F}_{k-1}] - Z_{k-1}\bigr), \quad M_n = Z_n - A_n.
+\]
+
+\textbf{Принадлежность $M$ классу $L^p$.} По неравенству Дуба для $L^p$-мартингалов при $p > 1$:
+\[
+E|M_n|^p \leq C_p \cdot \sup_n E|Z_n|^p < \infty.
+\]
+
+Кроме того, по максимальному неравенству Дуба:
+\[
+E\!\left[\sup_{k \leq n} |M_k|^p\right] \leq \left(\frac{p}{p-1}\right)^p E|M_n|^p.
+\]
+
+\textbf{Принадлежность $A$ классу $L^p$.} Так как $A_n = Z_n - M_n$ и оба слагаемых принадлежат $L^p$, то $A \in L^p$.
+
+\textbf{Итог.} Да: при $p > 1$ из $Z \in L^p$ следует $M, A \in L^p$, причём
+\[
+\|M_n\|_{L^p} + \|A_n\|_{L^p} \leq C_p \sup_n \|Z_n\|_{L^p} < \infty. \quad \blacksquare
+\]
+
+%--------------------------------------------------------------
+\section{Лекции 5–6. Мартингальные меры и фундаментальные теоремы}
+%--------------------------------------------------------------
+
+\subsection*{Задача 3}
+
+\textbf{Условие.} Верна ли теорема~2 (характеристика мартингальной меры через дисконтированный капитал СФП) для произвольного вероятностного пространства (не обязательно конечного)?
+
+\medskip
+\textbf{Решение.}
+
+\textbf{Направление $(\Rightarrow)$.} Пусть $Q \in \mathcal{P}^*$. Тогда $Z_n = S_n/B_n$ --- $Q$-мартингал. Для СФП:
+\[
+\tilde{X}_n = \tilde{X}_0 + \sum_{k=1}^n \gamma_k \Delta Z_k.
+\]
+Это стохастический интеграл по мартингалу $Z$. При ограниченных $\gamma_k$ сумма конечна, и $\tilde{X}_n$ является $Q$-мартингалом.
+
+\textbf{Направление $(\Leftarrow)$.} Рассмотрим «тестовый» портфель: $\gamma_k = \mathbf{1}_{k=m} \cdot h$ для ограниченной $\mathcal{F}_{m-1}$-измеримой с.\,в. $h$. Тогда:
+\[
+\tilde{X}_n - \tilde{X}_0 = h \cdot (Z_m - Z_{m-1}), \quad n \geq m.
+\]
+Из $Q$-мартингальности $\tilde{X}$: $E^Q[h(Z_m - Z_{m-1})] = 0$ для любой ограниченной $\mathcal{F}_{m-1}$-измеримой $h$.
+Это означает $E^Q[Z_m \mid \mathcal{F}_{m-1}] = Z_{m-1}$, т.\,е. $Z$ --- $Q$-мартингал.
+
+\textbf{Ответ.} Да, теорема~2 верна для произвольного вероятностного пространства: доказательство не использует конечность $\Omega$. $\quad\blacksquare$
+
+\subsection*{Задача 4. Лемма 1 (алгебраическая)}
+
+\textbf{Условие.} Доказать Лемму~1. Пусть $L_0$ --- линейное подпространство $\mathbb{R}^m$, $L_1$ --- непустое выпуклое замкнутое подмножество $\mathbb{R}^m$ с $L_0 \cap L_1 = \emptyset$. Тогда существует $q \in \mathbb{R}^m$ такой, что:
+\[
+\langle q, x \rangle = 0 \;\; \forall x \in L_0, \qquad \langle q, x \rangle > 0 \;\; \forall x \in L_1.
+\]
+
+\medskip
+\textbf{Решение.}
+
+\textbf{Шаг 1.} Рассмотрим ортогональное дополнение $L_0^\perp = \{q \in \mathbb{R}^m : \langle q, x \rangle = 0 \;\forall x \in L_0\}$.
+
+\textbf{Шаг 2.} Проецируем $L_1$ на $L_0^\perp$: образ $\pi(L_1)$ --- непустое выпуклое подмножество $L_0^\perp$. Так как $L_0 \cap L_1 = \emptyset$, то $0 \notin \pi(L_1)$.
+
+\textbf{Шаг 3.} По теореме об отделении выпуклых множеств в $L_0^\perp \cong \mathbb{R}^k$, существует $q \in L_0^\perp$ такой, что $\langle q, \pi(y) \rangle > 0$ для всех $y \in L_1$.
+
+\textbf{Шаг 4.} По построению $q \in L_0^\perp$, поэтому $\langle q, x \rangle = 0$ для всех $x \in L_0$.
+Для $y \in L_1$:
+\[
+\langle q, y \rangle = \langle q, \pi(y) \rangle + \langle q, y - \pi(y) \rangle = \langle q, \pi(y) \rangle > 0,
+\]
+так как $y - \pi(y) \in L_0$, а $q \perp L_0$. $\quad\blacksquare$
+
+\subsection*{Задача 6. Первая фундаментальная теорема}
+
+\textbf{Условие.} Доказать теорему~3 (1-ю фундаментальную теорему) для произвольного стохастического базиса.
+
+\medskip
+\textbf{Решение (схема).}
+
+\textbf{Направление $(\Leftarrow)$.} Если $\mathcal{P}^* \neq \emptyset$, то рынок безарбитражен.
+
+Пусть $P^* \in \mathcal{P}^*$ и существует арбитражный СФП: $X_0 = 0$, $X_N \geq 0$, $P(X_N > 0) > 0$.
+Так как $P^* \sim P$, то $P^*(X_N > 0) > 0$. По теореме~2, $\tilde{X}_n$ --- $P^*$-мартингал, значит $E^{P^*}[\tilde{X}_N] = \tilde{X}_0 = 0$.
+Но $\tilde{X}_N \geq 0$ и $P^*(\tilde{X}_N > 0) > 0$, поэтому $E^{P^*}[\tilde{X}_N] > 0$. Противоречие.
+
+\textbf{Направление $(\Rightarrow)$.} На конечном $\Omega = \{\omega_1, \ldots, \omega_m\}$:
+
+\begin{enumerate}
+  \item Обозначим $L_0 = \{\tilde{X}_N : \text{СФП с } \tilde{X}_0 = 0\}$ --- линейное подпространство в $\mathbb{R}^m$.
+  \item Безарбитражность: $L_0 \cap L_1 = \emptyset$, где $L_1 = \{x \in \mathbb{R}^m : x_i \geq 0, \sum x_i > 0\}$.
+  \item По лемме~1, существует $q = (q_1, \ldots, q_m)$ с $\langle q, x \rangle = 0$ для $x \in L_0$ и $> 0$ для $x \in L_1$.
+  \item Из $\langle q, e_i \rangle > 0$ следует $q_i > 0$. Нормируем: $P^*(\omega_i) = q_i / \sum q_j$.
+  \item По лемме~2, $P^*$ является мартингальной мерой.
+\end{enumerate}
+
+На произвольном $\Omega$ доказательство использует теорему Хана--Банаха, но схема аналогична. $\quad\blacksquare$
+
+\subsection*{Задача 7}
+
+\textbf{Условие.} В доказательстве леммы~3 (слабая безарбитражность $\Rightarrow$ $X_n \geq 0$ при $X_0 = 0$, $X_N \geq 0$) найти компоненты $\gamma_n$ соответствующего СФП.
+
+\medskip
+\textbf{Решение.}
+
+Предположим от противного: существует $n_0$ и событие $A = \{X_{n_0} < 0\} \in \mathcal{F}_{n_0}$ с $P(A) > 0$.
+
+Построим портфель $(\hat\beta, \hat\gamma)$:
+\[
+\hat\gamma_n = \gamma_n \cdot \mathbf{1}_{n \leq n_0} \cdot \mathbf{1}_A, \quad
+\hat\beta_n = \beta_n \cdot \mathbf{1}_{n \leq n_0} \cdot \mathbf{1}_A + \frac{X_{n_0}^-}{B_{n_0}} \cdot \mathbf{1}_{n > n_0} \cdot \mathbf{1}_A,
+\]
+где $X_{n_0}^- = \max(-X_{n_0}, 0) > 0$ на $A$.
+
+Это СФП с $\hat X_0 = 0$, $\hat X_N \geq 0$. Если $P(A) > 0$, то $P(\hat X_N > 0) > 0$, что противоречит слабой безарбитражности. Следовательно, $P(X_{n_0} < 0) = 0$ для всех $n_0$. $\quad\blacksquare$
+
+\subsection*{Задача 8}
+
+\textbf{Условие.} Доказать необходимость п.\,2 теоремы~4: если рынок безарбитражен в сильном смысле, то он безарбитражен в обычном смысле.
+
+\medskip
+\textbf{Решение.}
+
+Предположим, рынок безарбитражен в сильном смысле. Нам нужно показать: нет СФП с $X_0 = 0$, $X_N \geq 0$, $P(X_N > 0) > 0$.
+
+Если бы существовал такой СФП, то по определению сильной безарбитражности: из $X_0 = 0$ и $X_N \geq 0$ следует $X_n = 0$ для всех $n$, в частности $X_N = 0$ п.\,н. --- противоречие с $P(X_N > 0) > 0$. $\quad\blacksquare$
+
+%--------------------------------------------------------------
+\section{Лекции 7–8. Моменты остановки}
+%--------------------------------------------------------------
+
+\subsection*{Задача 1}
+
+\textbf{Условие.} Доказать, что $\mathcal{F}_\tau$ является $\sigma$-алгеброй.
+
+\medskip
+\textbf{Решение.}
+
+$\mathcal{F}_\tau = \{A \in \mathcal{F} : A \cap \{\tau = n\} \in \mathcal{F}_n \;\forall n \in \mathbb{N}\}$.
+
+\begin{enumerate}
+  \item \textbf{$\Omega \in \mathcal{F}_\tau$:} $\Omega \cap \{\tau = n\} = \{\tau = n\} \in \mathcal{F}_n$. $\checkmark$
+
+  \item \textbf{Замкнутость относительно дополнения:} Пусть $A \in \mathcal{F}_\tau$, тогда
+  \[A^c \cap \{\tau = n\} = \{\tau = n\} \setminus (A \cap \{\tau = n\}) \in \mathcal{F}_n.\checkmark\]
+
+  \item \textbf{Замкнутость относительно счётных объединений:} Пусть $A_k \in \mathcal{F}_\tau$:
+  \[\left(\bigcup_k A_k\right) \cap \{\tau = n\} = \bigcup_k (A_k \cap \{\tau = n\}) \in \mathcal{F}_n. \checkmark\]
+\end{enumerate}
+
+Следовательно, $\mathcal{F}_\tau$ --- $\sigma$-алгебра. $\quad\blacksquare$
+
+\subsection*{Задача XVIII}
+
+\textbf{Условие.} Доказать, что $\inf_k \tau_k$ и $\sup_k \tau_k$ являются моментами остановки. Верно ли то же для $\liminf$ и $\limsup$?
+
+\medskip
+\textbf{Решение.}
+
+\textbf{Инфимум:} $\sigma = \inf_k \tau_k$.
+\[
+\{\sigma \leq n\} = \bigcup_k \{\tau_k \leq n\} \in \mathcal{F}_n. \checkmark
+\]
+
+\textbf{Супремум:} $\tau = \sup_k \tau_k$.
+\[
+\{\tau \leq n\} = \bigcap_k \{\tau_k \leq n\} \in \mathcal{F}_n. \checkmark
+\]
+
+\textbf{$\liminf$:} $\liminf_k \tau_k = \sup_n \inf_{k \geq n} \tau_k$. Каждый $\inf_{k \geq n} \tau_k$ --- момент остановки (как инфимум), и супремум от них тоже. $\checkmark$
+
+\textbf{$\limsup$:} $\limsup_k \tau_k = \inf_n \sup_{k \geq n} \tau_k$. Каждый $\sup_{k \geq n} \tau_k$ --- момент остановки, и инфимум тоже. $\checkmark$ $\quad\blacksquare$
+
+\subsection*{Задача XXV}
+
+\textbf{Условие.} Доказать, что
+\[
+E\bigl[E[f \mid \mathcal{F}_\tau] \mid \mathcal{F}_\sigma\bigr] = E\bigl[E[f \mid \mathcal{F}_\sigma] \mid \mathcal{F}_\tau\bigr] = E[f \mid \mathcal{F}_{\sigma \wedge \tau}].
+\]
+
+\medskip
+\textbf{Решение.}
+
+Пусть $\sigma \leq \tau$. По теореме~X, $\mathcal{F}_\sigma \subseteq \mathcal{F}_\tau$.
+
+Из башенного свойства условных ожиданий (при $\mathcal{G}_1 \subseteq \mathcal{G}_2$: $E[E[f \mid \mathcal{G}_2] \mid \mathcal{G}_1] = E[f \mid \mathcal{G}_1]$):
+\[
+E\bigl[E[f \mid \mathcal{F}_\tau] \mid \mathcal{F}_\sigma\bigr] = E[f \mid \mathcal{F}_\sigma] = E[f \mid \mathcal{F}_{\sigma \wedge \tau}].
+\]
+Также, так как $E[f \mid \mathcal{F}_\sigma]$ является $\mathcal{F}_\tau$-измеримой:
+\[
+E\bigl[E[f \mid \mathcal{F}_\sigma] \mid \mathcal{F}_\tau\bigr] = E[f \mid \mathcal{F}_\sigma].
+\]
+
+Для общего случая оба выражения равны $E[f \mid \mathcal{F}_{\sigma \wedge \tau}]$ на каждом из событий $\{\sigma \leq \tau\}$ и $\{\tau < \sigma\}$. $\quad\blacksquare$
+
+%--------------------------------------------------------------
+\section{Лекции 9–10. Полные рынки}
+%--------------------------------------------------------------
+
+\subsection*{Задача 5}
+
+\textbf{Условие.} В доказательстве достаточности леммы~2 найти явные компоненты $\gamma_n$ СФП.
+
+\medskip
+\textbf{Решение.}
+
+Рассмотрим «тестовый» СФП: вложим всё в акцию на шаге $k$ и снимем:
+\[
+\gamma_j = h \cdot \mathbf{1}_{j = k}, \quad
+\beta_j = \begin{cases} -h S_{k-1}/B_{k-1} & j = k, \\ 0 & \text{иначе,} \end{cases}
+\]
+для ограниченной $\mathcal{F}_{k-1}$-измеримой с.\,в. $h$.
+
+Тогда $\tilde{X}_0 = 0$ и $\tilde{X}_N = h \cdot \Delta Z_k \in L_0$. По условию $E^Q[h \Delta Z_k] = 0$
+для всех ограниченных $\mathcal{F}_{k-1}$-измеримых $h$, что равносильно $E^Q[\Delta Z_k \mid \mathcal{F}_{k-1}] = 0$.
+
+Явно: $\gamma_k = h$, $\beta_k = -h Z_{k-1}$. $\quad\blacksquare$
+
+\subsection*{Задача 9}
+
+\textbf{Условие.} Доказать, что полный рынок (каждое ограниченное $f_N$ реплицируемо) совпадает с совершенным (каждое $f_N$ реплицируемо, без ограничения).
+
+\medskip
+\textbf{Решение (схема).}
+
+На конечном вероятностном пространстве $|\Omega| < \infty$ все с.\,в. ограничены автоматически, поэтому полнота и совершенность эквивалентны.
+
+На бесконечном $\Omega$ рассмотрим срезки $f_N^{(m)} = \max(\min(f_N, m), -m)$. По полноте для каждого $m$ существует СФП $(\beta^{(m)}, \gamma^{(m)})$ с $X_N^{(m)} = f_N^{(m)}$. При $m \to \infty$ сходимость хеджей обеспечивается равномерной интегрируемостью. $\quad\blacksquare$
+
+%--------------------------------------------------------------
+\section{Лекции 13–14. Цены платёжных обязательств. CRR}
+%--------------------------------------------------------------
+
+\subsection*{Задача 15}
+
+\textbf{Условие.} Доказать независимость $\xi_1, \ldots, \xi_N$ относительно $P^*$ в CRR-модели.
+
+\medskip
+\textbf{Решение.}
+
+В CRR-модели $\xi_k \in \{a, b\}$ с $P^*(\xi_k = b) = p^*$, $P^*(\xi_k = a) = q^* = 1 - p^*$.
+
+Любой атом $(x_1, \ldots, x_N)$ имеет вероятность:
+\[
+P^*(x_1, \ldots, x_N) = (p^*)^k (q^*)^{N-k} = \prod_{j=1}^N P^*(\xi_j = x_j),
+\]
+где $k = \#\{i : x_i = b\}$. Это в точности определение независимости. $\quad\blacksquare$
+
+\subsection*{Задача 16}
+
+\textbf{Условие.} Доказать, что $P^*(\xi_n = b) = p^*$ в CRR-модели.
+
+\medskip
+\textbf{Решение.}
+
+Из независимости $\xi_1, \ldots, \xi_N$ под $P^*$ (задача~15) непосредственно следует $P^*(\xi_n = b) = p^*$.
+
+Альтернативное доказательство: из условия мартингальности $E^{P^*}[Z_n \mid \mathcal{F}_{n-1}] = Z_{n-1}$:
+\[
+\frac{S_{n-1}}{B_{n-1}} \cdot \frac{E^{P^*}[1+\xi_n]}{1+r} = \frac{S_{n-1}}{B_{n-1}}
+\implies p^*(1+b) + q^*(1+a) = 1+r
+\implies p^* = \frac{r-a}{b-a}. \quad\blacksquare
+\]
+
+\subsection*{Задача 17}
+
+\textbf{Условие.} Показать, что если $a \geq r$ или $r \geq b$, то CRR-рынок является арбитражным.
+
+\medskip
+\textbf{Решение.}
+
+\textbf{Случай $a \geq r$.} Рассмотрим портфель: займём у банка и купим акцию. При $S_0 = B_0 = 1$:
+\[
+X_1 = (1+\xi_1) - (1+r) = \xi_1 - r \geq a - r \geq 0.
+\]
+При этом $P(\xi_1 = b) > 0$ и $b > a \geq r$, поэтому $P(X_1 > 0) > 0$. Арбитраж.
+
+\textbf{Случай $r \geq b$.} Рассмотрим обратный портфель: продадим акцию и вложим в банк.
+\[
+X_1 = (1+r) - (1+\xi_1) = r - \xi_1 \geq r - b \geq 0,
+\]
+и $P(\xi_1 = a) > 0$, $r - a > 0$. Арбитраж.
+
+В обоих случаях $p^* = (r-a)/(b-a) \notin (0,1)$, т.\,е. $\mathcal{P}^* = \emptyset$. $\quad\blacksquare$
+
+\subsection*{Задача 18}
+
+\textbf{Условие.} Доказать, что $\mathcal{F}_n = \mathcal{F}_n^{S_0, S_1, \ldots, S_n}$ в CRR-модели.
+
+\medskip
+\textbf{Решение.}
+
+Так как $S_k = S_0 \prod_{j=1}^k (1+\xi_j)$ является $\mathcal{F}_k$-измеримой, то $\mathcal{F}_n^S \subseteq \mathcal{F}_n$.
+
+Обратно: из $S_k = S_{k-1}(1+\xi_k)$ получаем $\xi_k = S_k/S_{k-1} - 1$, что $\mathcal{F}_n^S$-измеримо при $k \leq n$. Следовательно, $\mathcal{F}_n = \sigma(\xi_1, \ldots, \xi_n) \subseteq \mathcal{F}_n^S$. $\quad\blacksquare$
+
+\subsection*{Задача 19}
+
+\textbf{Условие.} Двушаговая CRR-модель. $S_0 = 200$, $B_0 = 1$, $r = 0.2$, $S_1 \in \{320, 120\}$. Вычислить справедливую цену call-опциона $f_2 = (S_2 - 210)^+$.
+
+\medskip
+\textbf{Решение.}
+
+\textbf{Шаг 1. Параметры.}
+
+$b = 320/200 - 1 = 0.6$, $a = 120/200 - 1 = -0.4$, $r = 0.2$ (проверка: $a < r < b$ $\checkmark$).
+\[
+p^* = \frac{0.2 + 0.4}{0.6 + 0.4} = 0.6, \quad q^* = 0.4.
+\]
+
+\textbf{Шаг 2. Цены в момент $N = 2$.}
+
+\begin{center}
+\begin{tabular}{cccc}
+\toprule
+Путь & $S_2$ & $f_2 = (S_2-210)^+$ & $P^*$ \\
+\midrule
+$UU$ & $512$ & $302$ & $0.36$ \\
+$UD$ & $192$ & $0$ & $0.24$ \\
+$DU$ & $192$ & $0$ & $0.24$ \\
+$DD$ & $72$ & $0$ & $0.16$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\textbf{Шаг 3. Справедливая цена.}
+\[
+E^{P^*}[f_2] = 302 \cdot 0.36 = 108.72, \quad C = \frac{108.72}{1.44} = 75.5.
+\]
+
+\textbf{Шаг 4. Хеджирующий портфель.}
+
+Узел $U$ ($S_1 = 320$):
+\[
+X_1^U = \frac{0.6 \cdot 302}{1.2} = 151, \quad
+\gamma_2^U = \frac{302 - 0}{512 - 192} = \frac{302}{320} \approx 0.944.
+\]
+Узел $D$ ($S_1 = 120$): $X_1^D = 0$, $\gamma_2^D = 0$.
+
+Момент $n = 0$:
+\[
+C = \frac{0.6 \cdot 151}{1.2} = 75.5, \quad
+\gamma_1 = \frac{151 - 0}{320 - 120} = \frac{151}{200} = 0.755.
+\]
+
+\textbf{Ответ:} справедливая цена $C = 75.5$. $\quad\blacksquare$
+
+\subsection*{Задача 20}
+
+\textbf{Условие.} Одношаговая модель. $S_0 = 100$, $r = 0$, $S_1 \in \{80, 90, 180\}$. Является ли call-опцион с $K = 100$ реплицируемым?
+
+\medskip
+\textbf{Решение.}
+
+Платёжное обязательство: $f_1 = (0, 0, 80)$. Система на компоненты портфеля:
+\[
+\beta + 80\gamma = 0, \quad \beta + 90\gamma = 0, \quad \beta + 180\gamma = 80.
+\]
+Из первых двух уравнений: $\gamma = 0$, $\beta = 0$, но тогда третье даёт $0 \neq 80$. Система несовместна.
+
+Call-опцион \textbf{не реплицируем}: рынок неполный (три исхода при двух активах). При этом рынок безарбитражен, так как существует бесконечно много мартингальных мер (из $E^{P^*}[S_1] = 100$). $\quad\blacksquare$
+
+\subsection*{Задача 21}
+
+\textbf{Условие.} Одношаговая модель. $S_0 = 1$, $B_1 = 1$ ($r = 0$), $S_1 = 1 + \xi$, $\xi \in \{-1/2, 0, 1/2\}$ с равными вероятностями $1/3$. Доказать безарбитражность и неполноту рынка.
+
+\medskip
+\textbf{Решение.}
+
+\textbf{Безарбитражность.} Ищем $P^* = (p_1, p_2, p_3)$ с $E^{P^*}[\xi] = 0$:
+\[
+-\tfrac{1}{2} p_1 + 0 \cdot p_2 + \tfrac{1}{2} p_3 = 0 \implies p_3 = p_1, \quad p_2 = 1 - 2p_1, \quad 0 < p_1 < \tfrac{1}{2}.
+\]
+Например, $P^* = (1/4, 1/2, 1/4)$. Так как $\mathcal{P}^* \neq \emptyset$, рынок безарбитражен.
+
+\textbf{Неполнота.} Мартингальная мера не единственна (любое $p_1 \in (0, 1/2)$ даёт допустимую $P^*$). По второй фундаментальной теореме, $|\mathcal{P}^*| > 1 \Rightarrow$ рынок неполон. $\quad\blacksquare$
+
+%--------------------------------------------------------------
+\section{Лекции 17–18. Хеджи с добавками. ДПО}
+%--------------------------------------------------------------
+
+\subsection*{Задача 22}
+
+\textbf{Условие.} Доказать, что если портфель удовлетворяет условиям (a) и (d) теоремы~1 (случай с добавками $h_n, g_n$), то выполняется равенство~(1).
+
+\medskip
+\textbf{Решение.}
+
+Условие (a): $X_{n-1} + h_n = \beta_{n-1} B_n + \gamma_{n-1} S_n$.
+
+Из (a): $X_{n-1} = \beta_{n-1} B_n + \gamma_{n-1} S_n - h_n$. Тогда:
+\[
+\Delta X_n = \beta_n B_n + \gamma_n S_n + g_n - \beta_{n-1} B_n - \gamma_{n-1} S_n + h_n.
+\]
+С другой стороны из (c): $\Delta X_n = \beta_n \Delta B_n + \gamma_n \Delta S_n + h_n + g_n$.
+
+Приравниваем и, аналогично задаче~1, получаем:
+\[
+\beta_{n-1} B_n + \gamma_{n-1} S_n = \beta_n B_{n-1} + \gamma_n S_{n-1},
+\]
+откуда $\beta_n \Delta B_n + \gamma_{n-1} \Delta S_n = h_n + g_n$, что и есть (1). $\quad\blacksquare$
+
+\subsection*{Задача 23}
+
+\textbf{Условие.} Доказать Предложение~1: СФП является верхним $(x, f, N)$-хеджем д.\,п.\,о. $(f_n)$ тогда и только тогда, когда $X_\tau \geq f_\tau$ для всех моментов остановки $\tau$.
+
+\medskip
+\textbf{Решение.}
+
+\textbf{$(\Rightarrow)$.} Если $X_n \geq f_n$ для всех $n$, то для любого момента остановки $\tau$:
+\[
+X_\tau(\omega) = X_{\tau(\omega)}(\omega) \geq f_{\tau(\omega)}(\omega) = f_\tau(\omega).
+\]
+
+\textbf{$(\Leftarrow)$.} Для фиксированного $n_0$ рассмотрим $\tau \equiv n_0$. Тогда $X_{n_0} \geq f_{n_0}$ п.\,н. Так как $n_0$ произвольно, $X_n \geq f_n$ для всех $n$. $\quad\blacksquare$
+
+%--------------------------------------------------------------
+\section{Лекции 19–20. Огибающая Снелла. Оптимальная остановка}
+%--------------------------------------------------------------
+
+\subsection*{Огибающая Снелла: пример вычисления}
+
+Огибающая Снелла $\Gamma_n$ для $(\varphi_n)$ строится рекуррентно:
+\[
+\Gamma_N = \varphi_N, \quad \Gamma_n = \max\!\bigl(\varphi_n,\; E[\Gamma_{n+1} \mid \mathcal{F}_n]\bigr).
+\]
+Оптимальный момент: $\tau^* = \min\{n \geq 0 : \Gamma_n = \varphi_n\}$.
+
+\medskip
+\textbf{Пример.} $N = 2$, $\varphi_0 = 5$, $\varphi_1 \in \{8, 3\}$ (равновероятно), $\varphi_2 \in \{10, 4, 4, 1\}$.
+\[
+E[\Gamma_2 \mid \mathcal{F}_1] = \begin{cases} 7 & \text{верхний узел,} \\ 2.5 & \text{нижний узел.} \end{cases}
+\]
+\[
+\Gamma_1 = \begin{cases} \max(8, 7) = 8 & \text{верхний,} \\ \max(3, 2.5) = 3 & \text{нижний.} \end{cases}
+\]
+\[
+\Gamma_0 = \max(5,\; (8+3)/2) = \max(5, 5.5) = 5.5.
+\]
+
+Оптимальный момент: $\Gamma_0 = 5.5 \neq 5 = \varphi_0$, поэтому $\tau^* \neq 0$. В обоих узлах $\Gamma_1 = \varphi_1$, поэтому $\tau^* = 1$ п.\,н., и $E[\varphi_{\tau^*}] = 5.5 = \Gamma_0$. $\quad\blacksquare$
+
+\end{document}
